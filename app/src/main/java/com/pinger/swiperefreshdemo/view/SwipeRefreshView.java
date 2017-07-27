@@ -82,8 +82,9 @@ public class SwipeRefreshView extends SwipeRefreshLayout {
                 mDownY = ev.getY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                // 移动过程中判断时候能下拉加载更多
-                if (canLoadMore()) {
+                // 移动过程中判断时候能上拉加载更多
+                mUpY = ev.getY();
+                if (canLoadMore() && mDownY - mUpY > 0) {
                     // 加载数据
                     loadData();
                 }
@@ -91,7 +92,7 @@ public class SwipeRefreshView extends SwipeRefreshLayout {
                 break;
             case MotionEvent.ACTION_UP:
                 // 移动的终点
-                mUpY = getY();
+                mUpY = ev.getY();
                 break;
         }
         return super.dispatchTouchEvent(ev);
